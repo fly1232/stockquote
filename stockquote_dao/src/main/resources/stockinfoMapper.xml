@@ -3,8 +3,8 @@
         PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
-<mapper namespace="com.twotigers.goldstock.mapper.StockInfoMapper">
-    <resultMap id="stockInfoResultMap" type="com.twotigers.goldstock.povo.StockInfoVo">
+<mapper namespace="com.soustock.stockquote.mapper.StockInfoMapper">
+    <resultMap id="stockInfoResultMap" type="com.soustock.stockquote.povo.StockInfoVo">
         <result property="stockCode" column="stock_code" javaType="string" jdbcType="VARCHAR" />
         <result property="stockName" column="stock_name" javaType="string" jdbcType="VARCHAR" />
         <result property="pyName" column="py_name" javaType="string" jdbcType="VARCHAR" />
@@ -23,7 +23,7 @@
         where stock_code=#{stockCode}
     </select>
 
-    <insert id="insertStockInfo" parameterType="com.twotigers.goldstock.povo.StockInfoVo">
+    <insert id="insertStockInfo" parameterType="com.soustock.stockquote.povo.StockInfoVo">
         INSERT INTO stock_info(<include refid="Base_Column_List" />)
         VALUES ( #{stockCode,jdbcType=VARCHAR},
                   #{stockName,jdbcType=VARCHAR},
@@ -37,7 +37,7 @@
         select count(*) from stock_info where market=#{market}
     </select>
 
-    <insert id="updateStockInfo" parameterType="com.twotigers.goldstock.povo.StockInfoVo">
+    <insert id="updateStockInfo" parameterType="com.soustock.stockquote.povo.StockInfoVo">
         update stock_info set stock_name=#{stockName,jdbcType=VARCHAR},
             py_name=#{pyName,jdbcType=VARCHAR},
             list_date=#{listDate,jdbcType=VARCHAR},
