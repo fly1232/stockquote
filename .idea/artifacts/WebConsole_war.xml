@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="WebConsole:war">
+    <output-path>$PROJECT_DIR$/WebConsole/target</output-path>
+    <root id="archive" name="WebConsole.war">
+      <element id="artifact" artifact-name="WebConsole:war exploded" />
+    </root>
+  </artifact>
+</component>
