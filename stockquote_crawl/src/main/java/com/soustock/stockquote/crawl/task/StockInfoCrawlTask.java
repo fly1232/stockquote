@@ -64,7 +64,6 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
 
     private void procMarket(String marketName) throws IOException, ParseException {
         //目前只处理两个市场，沪A和深A
-
         long countInDb = stockInfoDao.getStockInfoCountOfMarket(marketName);
         long countFromWeb = getCountFromWeb(marketName);
         if (countFromWeb == countInDb) {
@@ -72,25 +71,27 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
         }
         else {
             logger.info(String.format("市场：%s，新的股票代码被发现，抓取任务开始执行...", marketName));
-            fetchDataFromWeb(marketName, countFromWeb - countInDb);
+            fetchDataFromWeb(marketName, countInDb, countFromWeb - countInDb);
             logger.info(String.format("市场：%s, 抓取任务执行完毕.", marketName));
         }
     }
 
-    private void fetchDataFromWeb(String marketName, long fetchCount ) throws IOException, ParseException {
+    private void fetchDataFromWeb(String marketName, long fetchStart, long fetchCount ) throws IOException, ParseException {
         if (fetchCount <= 0) return;
 
         boolean bFetalExit=false;
         int pageSize = 90;
-        int pageCount = (int) Math.ceil( fetchCount * 1.0 / pageSize );
+        int pageStart = (int) Math.ceil((fetchStart+1.0)*1.0/pageSize);
+        int pageEnd = (int) Math.ceil((fetchStart+fetchCount)*1.0/pageSize);
+        int pageCount = pageEnd - pageStart + 1;
         logger.info(String.format("发现%d条记录，以%d条为一页，需要下载%d页.", fetchCount, pageSize, pageCount));
-        for (int pageNum = 1; pageNum <= pageCount; pageNum++) {
+        for (int pageNum = pageStart; pageNum <= pageEnd; pageNum++) {
             logger.info(String.format("第%d页正在下载...", pageNum));
             String requestUrl = "http://xueqiu.com/proipo/query.json";
-            Map<String, String> paramaters = new HashMap<String, String>();
-            paramaters.put("page", String.valueOf(pageNum));
+            Map<String, String> paramaters = new HashMap<>();
+            paramaters.put("page", String.valueOf(pageNum)); //先下载上市日期早的
             paramaters.put("size", String.valueOf(pageSize));
-            paramaters.put("order", "desc");
+            paramaters.put("order", "asc");
             paramaters.put("column", "symbol,name,list_date");
             paramaters.put("orderBy", "list_date");
             paramaters.put("type", "quote");
@@ -101,9 +102,7 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
             logger.info(String.format("第%d页正在解析, 即将写入数据库...", pageNum));
             JSONObject jsonObject = JSON.parseObject(jsonStr);
             JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-
-            for (Object obj : jsonArray) {
+            for (Object obj: jsonArray) {
                 JSONArray fieldArr = (JSONArray) obj;
                 if (NullCheckUtity.stringIsNull(fieldArr.getString(0))||
                         NullCheckUtity.stringIsNull(fieldArr.getString(1))||
@@ -115,8 +114,7 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
 
                 String stockCode = fieldArr.getString(0);
                 StockInfoVo stockInfoVo = stockInfoDao.getStockInfoByStockCode(stockCode);
-                boolean bNeedAdd = stockInfoVo==null;
-                if (bNeedAdd){
+                if (stockInfoVo==null){
                     stockInfoVo = new StockInfoVo();
                     stockInfoVo.setStockCode(stockCode);
                     stockInfoVo.setStockName(fieldArr.getString(1));
@@ -142,7 +140,7 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
 
     private long getCountFromWeb(String marketName) throws IOException {
         String requestUrl = "http://xueqiu.com/proipo/query.json";
-        Map<String,String> paramaters = new HashMap<String, String>();
+        Map<String,String> paramaters = new HashMap<>();
         paramaters.put("page", "1");
         paramaters.put("size", "30");
         paramaters.put("order", "asc");
