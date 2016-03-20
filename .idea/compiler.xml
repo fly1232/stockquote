@@ -36,20 +36,11 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="DataCrawl" target="1.8" />
-      <module name="GoldStock" target="1.5" />
-      <module name="gs_crawl" target="1.8" />
-      <module name="gs_dao" target="1.8" />
-      <module name="gs_povo" target="1.8" />
-      <module name="gs_service" target="1.8" />
-      <module name="gs_utils" target="1.8" />
-      <module name="gs_web" target="1.8" />
       <module name="stockquote_crawl" target="1.8" />
       <module name="stockquote_dao" target="1.8" />
-      <module name="stockquote_parent" target="1.5" />
+      <module name="stockquote_parent" target="1.8" />
       <module name="stockquote_povo" target="1.8" />
       <module name="stockquote_utils" target="1.8" />
-      <module name="WebConsole" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
