@@ -9,8 +9,4 @@
 
 	<import resource="classpath:datasource.xml" />
 
-	<!--<import resource="classpath:mapper/stockInfoMapper.xml" />-->
-
-	<!--<import resource="classpath:mapper/dayQuoteMapper.xml" />-->
-
 </beans>
