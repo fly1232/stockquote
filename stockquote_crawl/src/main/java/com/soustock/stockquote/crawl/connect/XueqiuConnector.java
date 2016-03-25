@@ -29,7 +29,7 @@ public class XueqiuConnector {
                           Map<String, String> properties) throws IOException {
         HttpRequester httpRequester = new HttpRequester();
         if (properties==null){
-            properties = new HashMap<String, String>();
+            properties = new HashMap<>();
         }
         properties.put("Cookie", STR_COOKIE_XUEQIU);
         return httpRequester.sendGet(urlString, params, properties);

@@ -1,12 +1,11 @@
 package com.soustock.stockquote.povo;
 
-import java.io.Serializable;
 
 /**
  * Created by xuyufei on 2016/3/5.
  * 股票行情
  */
-public class StockQuoteVo implements Serializable {
+public class StockQuoteVo extends BaseDataVo {
 
     /**
      * 股票代码

@@ -1,12 +1,13 @@
 package com.soustock.stockquote.povo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by xuyufei on 2015/10/18.
  * 股票信息
  */
-public class StockInfoVo implements Serializable {
+public class StockInfoVo extends BaseDataVo {
 
     /**
      * 股票代码
@@ -32,6 +33,7 @@ public class StockInfoVo implements Serializable {
      * 市场
      */
     private String market;
+
 
     public String getStockCode() {
         return stockCode;
@@ -72,4 +74,5 @@ public class StockInfoVo implements Serializable {
     public void setMarket(String market) {
         this.market = market;
     }
+
 }

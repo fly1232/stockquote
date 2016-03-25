@@ -22,23 +22,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="gs_crawl" />
-        <module name="gs_dao" />
-        <module name="gs_povo" />
-        <module name="gs_service" />
-        <module name="gs_utils" />
-        <module name="gs_web" />
         <module name="stockquote_crawl" />
         <module name="stockquote_dao" />
         <module name="stockquote_povo" />
         <module name="stockquote_utils" />
-        <module name="WebConsole" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="stockquote" target="1.5" />
       <module name="stockquote_crawl" target="1.8" />
       <module name="stockquote_dao" target="1.8" />
-      <module name="stockquote_parent" target="1.8" />
       <module name="stockquote_povo" target="1.8" />
       <module name="stockquote_utils" target="1.8" />
     </bytecodeTargetLevel>

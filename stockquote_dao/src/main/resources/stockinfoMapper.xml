@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
-        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+        "classpath:/dtd/ibatis-3-mapper.dtd">
 
 <mapper namespace="com.soustock.stockquote.mapper.StockInfoMapper">
+
     <resultMap id="stockInfoResultMap" type="com.soustock.stockquote.povo.StockInfoVo">
         <result property="stockCode" column="stock_code" javaType="string" jdbcType="VARCHAR" />
         <result property="stockName" column="stock_name" javaType="string" jdbcType="VARCHAR" />
         <result property="pyName" column="py_name" javaType="string" jdbcType="VARCHAR" />
         <result property="listDate" column="list_date" javaType="string" jdbcType="VARCHAR" />
         <result property="market" column="market" javaType="string" jdbcType="VARCHAR" />
+        <result property="updateTime" column="update_time" javaType="long" jdbcType="BIGINT" />
     </resultMap>
 
     <sql id="Base_Column_List" >
-        stock_code, stock_name, py_name, list_date, market
+        stock_code, stock_name, py_name, list_date, market, update_time
     </sql>
 
     <select id="getStockInfoByStockCode" parameterType="java.lang.String"
@@ -29,7 +31,8 @@
                   #{stockName,jdbcType=VARCHAR},
                   #{pyName,jdbcType=VARCHAR},
                   #{listDate,jdbcType=VARCHAR},
-                  #{market,jdbcType=VARCHAR}
+                  #{market,jdbcType=VARCHAR},
+                  #{updateTime,jdbcType=BIGINT}
                 )
     </insert>
 
@@ -41,17 +44,10 @@
         update stock_info set stock_name=#{stockName,jdbcType=VARCHAR},
             py_name=#{pyName,jdbcType=VARCHAR},
             list_date=#{listDate,jdbcType=VARCHAR},
-            market=#{market,jdbcType=VARCHAR}
+            market=#{market,jdbcType=VARCHAR},
+            update_time=#{updateTime,jdbcType=BIGINT}
         where stock_code=#{stockCode}
     </insert>
-
-    <select id="getStockInfosOfMarket" parameterType="java.lang.String"
-            resultMap="stockInfoResultMap">
-        select <include refid="Base_Column_List" />
-        from stock_info
-        where market=#{market}
-        order by stock_code asc
-    </select>
 
     <select id="getStockInfosOfLikeStr" parameterType="java.lang.String"
             resultMap="stockInfoResultMap">
@@ -60,6 +56,14 @@
         where stock_code like CONCAT(#{likeStr},'%') or stock_name like CONCAT(#{likeStr},'%') or py_name like CONCAT(#{likeStr},'%')
         order by stock_code asc
         limit 0,20
+    </select>
+
+    <select id="getAllStockInfosOfMarket" parameterType="java.lang.String"
+            resultMap="stockInfoResultMap">
+        select <include refid="Base_Column_List" />
+        from stock_info
+        where market=#{market}
+        order by stock_code asc
     </select>
 
 </mapper>

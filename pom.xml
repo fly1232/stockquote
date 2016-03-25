@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.soustock.stockquote</groupId>
-    <artifactId>stockquote_parent</artifactId>
+    <artifactId>stockquote</artifactId>
     <packaging>pom</packaging>
     <version>V1.0</version>
     <modules>
@@ -142,12 +142,14 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>2.5</version>
+                <scope>provided</scope>
             </dependency>
 
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>1.2</version>
+                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -155,19 +157,6 @@
                 <artifactId>json-lib</artifactId>
                 <version>2.4</version>
                 <classifier>jdk15</classifier>
-            </dependency>
-
-            <!-- sitemesh -->
-            <dependency>
-                <groupId>opensymphony</groupId>
-                <artifactId>sitemesh</artifactId>
-                <version>2.4.2</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.5</version>
             </dependency>
 
             <dependency>

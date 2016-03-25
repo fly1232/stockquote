@@ -3,8 +3,6 @@ package main;
 import com.soustock.stockquote.crawl.job.CrawlJobDetail;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-
-import java.io.IOException;
 import java.util.TimeZone;
 
 /**

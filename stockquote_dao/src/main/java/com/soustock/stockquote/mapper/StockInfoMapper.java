@@ -42,7 +42,7 @@ public interface StockInfoMapper {
     /**
      * 获取某个市场的股票列表
      */
-    List<StockInfoVo> getStockInfosOfMarket(String market);
+    List<StockInfoVo> getAllStockInfosOfMarket(String market);
 
     /**
      * 获取代码、名称、简称匹配输入字符串的股票列表,只输出前20个

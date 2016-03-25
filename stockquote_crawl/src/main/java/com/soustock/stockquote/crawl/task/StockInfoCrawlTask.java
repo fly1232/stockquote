@@ -126,6 +126,7 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
                     Date listDate = DateUtity.parseXueqiuFormatToDate(fieldArr.get(2).toString());
                     stockInfoVo.setListDate(DateUtity.dateToDateStr(listDate));
                     stockInfoVo.setMarket(marketName);
+                    stockInfoVo.setUpdateTime(new Date().getTime());
                     stockInfoDao.insertStockInfo(stockInfoVo);
                 }
             }

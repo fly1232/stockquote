@@ -68,6 +68,6 @@ public class StockInfoDaoImpl implements StockInfoDao {
 
     @Override
     public List<StockInfoVo> getAllStockInfosOfMarket(String market) {
-        return stockInfoMapper.getStockInfosOfMarket(market);
+        return stockInfoMapper.getAllStockInfosOfMarket(market);
     }
 }

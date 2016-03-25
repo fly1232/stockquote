@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="gs_web:war">
-    <output-path>$PROJECT_DIR$/gs_web/target</output-path>
-    <root id="archive" name="gs_web.war">
-      <element id="artifact" artifact-name="gs_web:war exploded" />
-    </root>
-  </artifact>
-</component>
