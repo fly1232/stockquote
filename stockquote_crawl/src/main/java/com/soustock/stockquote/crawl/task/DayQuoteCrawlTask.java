@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by xuyufei on 2015/9/19.
  * 股票行情抓取
  */
-//@Component
+@Component
 public class DayQuoteCrawlTask extends BaseCrawlTask {
 
     private final static Log logger = LogFactory.getLog(DayQuoteCrawlTask.class);

@@ -1,7 +1,6 @@
 package com.soustock.stockquote.mapper;
 
 import com.soustock.stockquote.povo.StockInfoVo;
-import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 

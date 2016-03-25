@@ -50,10 +50,6 @@ public class DayQuoteCrawlUnitTask implements Runnable {
      */
     private AtomicInteger rowIndex ;
 
-    public String getStockCode() {
-        return stockCode;
-    }
-
     public void setRowIndex(AtomicInteger rowIndex) {
         this.rowIndex = rowIndex;
     }
@@ -120,22 +116,23 @@ public class DayQuoteCrawlUnitTask implements Runnable {
                 }
                 Element table = doc.getElementById("FundHoldSharesTable");
                 if (table != null) {
-                    List<StockQuoteVo> insertObjs = new ArrayList<StockQuoteVo>();
+                    List<StockQuoteVo> insertObjs = new ArrayList<>();
                     Elements trs = table.getElementsByTag("tr");
                     for (int index = trs.size() - 1; index >= 2; index--) {
                         Element tr = trs.get(index);
                         Elements tds = tr.getElementsByTag("td");
-                        String dtStr = tds.get(0).text().trim();
+                        String dtStr = tds.get(0).text().trim().replace("-","");
                         if ((maxDate == null) || (dtStr.compareTo(maxDate) > 0)) {
                             StockQuoteVo insertObj = new StockQuoteVo();
                             insertObj.setStockCode(stockCode);
-                            insertObj.setDate(dtStr);
+                            insertObj.setTradeDate(dtStr);
                             insertObj.setOpenPrice(Double.parseDouble(tds.get(1).text().trim()));
                             insertObj.setHighPrice(Double.parseDouble(tds.get(2).text().trim()));
                             insertObj.setLowPrice(Double.parseDouble(tds.get(4).text().trim()));
                             insertObj.setClosePrice(Double.parseDouble(tds.get(3).text().trim()));
                             insertObj.setTradeQty(Double.parseDouble(tds.get(5).text().trim()));
                             insertObj.setTradeMoney(Double.parseDouble(tds.get(6).text().trim()));
+                            insertObj.setUpdateTime(System.currentTimeMillis());
                             insertObjs.add(insertObj);
                         }
                     }

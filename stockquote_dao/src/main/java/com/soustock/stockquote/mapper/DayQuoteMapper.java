@@ -1,14 +1,14 @@
-package com.soustock.stockquote.dao;
+package com.soustock.stockquote.mapper;
 
 import com.soustock.stockquote.povo.StockQuoteVo;
 
 import java.util.List;
 
 /**
- * Created by xuyufei on 2016/3/5.
- * 股票行情的dao
+ * Created by xuyufei on 2016/3/26.
+ * 日行情dao的mybatis实现
  */
-public interface DayQuoteDao {
+public interface DayQuoteMapper {
 
     /**
      * 获取某个股票的行情最大日期(yyyyMMdd)

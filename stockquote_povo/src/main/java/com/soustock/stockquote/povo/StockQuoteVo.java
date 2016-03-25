@@ -13,9 +13,9 @@ public class StockQuoteVo extends BaseDataVo {
     private String stockCode;
 
     /**
-     * 股票日期（日、周、月行情为日期字符串８位，5、10、15、30、60分钟为时间节点字符串14位
+     * 交易日期（日、周、月行情为日期字符串８位，5、10、15、30、60分钟为时间节点字符串14位
      */
-    private String date;
+    private String tradeDate;
 
     /**
      * 开盘价
@@ -55,12 +55,12 @@ public class StockQuoteVo extends BaseDataVo {
         this.stockCode = stockCode;
     }
 
-    public String getDate() {
-        return date;
+    public String getTradeDate() {
+        return tradeDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setTradeDate(String tradeDate) {
+        this.tradeDate = tradeDate;
     }
 
     public double getOpenPrice() {
