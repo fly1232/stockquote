@@ -37,37 +37,14 @@ public class DayQuoteCrawlTask extends BaseCrawlTask {
     protected void process() throws BusinessException {
         try {
             List<String> stockCodes = stockCodeCache.getStockCodes();
-            int len = stockCodes.size();
-            ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
-//            BlockingQueue<Runnable> secuCodeQueue = new LinkedBlockingQueue<Runnable>(100);
-//            ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10, 60, TimeUnit.SECONDS, secuCodeQueue);
-//            threadPoolExecutor.setRejectedExecutionHandler(new RejectedExecutionHandler() {
-//                @Override
-//                public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-//                    logger.info("SecuCode Rejected : " + ((StockQuoteCrawlUnitTask) r).getStockCode());
-//                    try {
-//                        boolean bEnter = false;
-//                        while (!bEnter) {
-//                            logger.info("Waiting for 3000 ms !!");
-//                            Thread.sleep(3000);
-//                            bEnter = secuCodeQueue.offer(r);
-//                        }
-//                        logger.info("SecuCode accepted : " + ((StockQuoteCrawlUnitTask) r).getStockCode());
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//            //Let start all core threads initially
-//            threadPoolExecutor.prestartAllCoreThreads();
-
-            AtomicInteger rowIndex = new AtomicInteger(0);
+            ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+            AtomicInteger stockIndex = new AtomicInteger(0);
             int stockCount = stockCodes.size();
             for (String stockCode: stockCodes) {
                 DayQuoteCrawlUnitTask unitTask = new DayQuoteCrawlUnitTask(stockCode);
                 unitTask.setDayQuoteDao(dayQuoteDao);
                 unitTask.setStockInfoDao(stockInfoDao);
-                unitTask.setRowIndex(rowIndex);
+                unitTask.setStockIndex(stockIndex);
                 unitTask.setStockCount(stockCount);
                 executorService.execute(unitTask);
             }

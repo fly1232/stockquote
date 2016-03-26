@@ -48,10 +48,10 @@ public class DayQuoteCrawlUnitTask implements Runnable {
     /**
      * 当前进度
      */
-    private AtomicInteger rowIndex ;
+    private AtomicInteger stockIndex;
 
-    public void setRowIndex(AtomicInteger rowIndex) {
-        this.rowIndex = rowIndex;
+    public void setStockIndex(AtomicInteger stockIndex) {
+        this.stockIndex = stockIndex;
     }
 
     public DayQuoteCrawlUnitTask(String stockCode){
@@ -60,15 +60,14 @@ public class DayQuoteCrawlUnitTask implements Runnable {
 
     @Override
     public void run() {
-        int row = rowIndex.incrementAndGet();
+        int row = stockIndex.incrementAndGet();
         logger.info(String.format("Day quote crawl: %d/%d, %s...", row, stockCount, stockCode));
         try {
             fetchQuoteForEachStock(stockCode);
-            logger.info(String.format("Day quote crawl: %s ...ok.", stockCode));
+            logger.info(String.format("Day quote crawl: %d/%d, %s ...ok.", row, stockCount, stockCode));
         } catch (IOException e) {
-            logger.info(String.format("Day quote crawl: %s ...failure, the detail cause is:" + e.getMessage(), stockCode), e);
+            logger.info(String.format("Day quote crawl: %d/%d, %s ...failure, the detail cause is:" + e.getMessage(), row, stockCount, stockCode), e);
         }
-
     }
 
     private void fetchQuoteForEachStock(String stockCode) throws IOException {
@@ -102,43 +101,62 @@ public class DayQuoteCrawlUnitTask implements Runnable {
                 fromYear = DateUtity.getYear(dtMaxDate);
                 fromJidu = DateUtity.getJidu(dtMaxDate);
             }
+
             String urlFormat = "http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/%s.phtml?year=%d&jidu=%d";
             while ((fromYear * 4 + fromJidu) <= (toYear * 4 + toJidu)){
                 String url = String.format(urlFormat, stockCode.substring(2), fromYear, fromJidu);
                 Document doc = null;
+                boolean bTimeOut = false;
+                int tryTimes = 0;
                 while (doc == null){
                     try {
+                        tryTimes ++;
                         doc = Jsoup.connect(url).timeout(300000).get();
                     }
-                    catch (IOException exx){
+                    catch (IOException ex){
                         doc = null;
-                    }
-                }
-                Element table = doc.getElementById("FundHoldSharesTable");
-                if (table != null) {
-                    List<StockQuoteVo> insertObjs = new ArrayList<>();
-                    Elements trs = table.getElementsByTag("tr");
-                    for (int index = trs.size() - 1; index >= 2; index--) {
-                        Element tr = trs.get(index);
-                        Elements tds = tr.getElementsByTag("td");
-                        String dtStr = tds.get(0).text().trim().replace("-","");
-                        if ((maxDate == null) || (dtStr.compareTo(maxDate) > 0)) {
-                            StockQuoteVo insertObj = new StockQuoteVo();
-                            insertObj.setStockCode(stockCode);
-                            insertObj.setTradeDate(dtStr);
-                            insertObj.setOpenPrice(Double.parseDouble(tds.get(1).text().trim()));
-                            insertObj.setHighPrice(Double.parseDouble(tds.get(2).text().trim()));
-                            insertObj.setLowPrice(Double.parseDouble(tds.get(4).text().trim()));
-                            insertObj.setClosePrice(Double.parseDouble(tds.get(3).text().trim()));
-                            insertObj.setTradeQty(Double.parseDouble(tds.get(5).text().trim()));
-                            insertObj.setTradeMoney(Double.parseDouble(tds.get(6).text().trim()));
-                            insertObj.setUpdateTime(System.currentTimeMillis());
-                            insertObjs.add(insertObj);
+                        if (tryTimes==3){
+                            logger.error("Timeout error occured when connect the url: " + url + ", the detail cause is："+ ex.getMessage(), ex);
+                            bTimeOut = true;
+                            break;
                         }
                     }
-                    if (!insertObjs.isEmpty()) {
-                        dayQuoteDao.insertDayQuotes(insertObjs);
+                }
+                //超时退出的，继续退出
+                if (bTimeOut) break;
+
+                try {
+                    Element table = doc.getElementById("FundHoldSharesTable");
+                    if (table != null) {
+                        List<StockQuoteVo> insertObjs = new ArrayList<>();
+                        Elements trs = table.getElementsByTag("tr");
+                        for (int index = trs.size() - 1; index >= 2; index--) {
+                            Element tr = trs.get(index);
+                            Elements tds = tr.getElementsByTag("td");
+                            String dtStr = tds.get(0).text().trim().replace("-", "");
+                            if ((maxDate == null) || (dtStr.compareTo(maxDate) > 0)) {
+                                StockQuoteVo insertObj = new StockQuoteVo();
+                                insertObj.setStockCode(stockCode);
+                                insertObj.setTradeDate(dtStr);
+                                insertObj.setOpenPrice(Double.parseDouble(tds.get(1).text().trim()));
+                                insertObj.setHighPrice(Double.parseDouble(tds.get(2).text().trim()));
+                                insertObj.setLowPrice(Double.parseDouble(tds.get(4).text().trim()));
+                                insertObj.setClosePrice(Double.parseDouble(tds.get(3).text().trim()));
+                                insertObj.setTradeQty(Double.parseDouble(tds.get(5).text().trim()));
+                                insertObj.setTradeMoney(Double.parseDouble(tds.get(6).text().trim()));
+                                insertObj.setUpdateTime(System.currentTimeMillis());
+                                insertObjs.add(insertObj);
+                            }
+                        }
+                        if (!insertObjs.isEmpty()) {
+                            dayQuoteDao.insertDayQuotes(insertObjs);
+                        }
                     }
+                }
+                catch (Exception ex){
+                    logger.error( "One error occured when analyzing the page, the url is: " + url +
+                                  ", the detail cause is："+ ex.getMessage(), ex);
+                    throw ex;
                 }
 
                 if (fromJidu < 4){

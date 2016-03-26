@@ -1,5 +1,7 @@
 package com.soustock.stockquote.utils;
 
+import com.soustock.stockquote.exception.BusinessException;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,13 +21,20 @@ public class DateUtity {
         return xueqiuFormat.parse(xueqiuDtStr);
     }
 
-    private final static DateFormat stdFormat = new SimpleDateFormat("yyyyMMdd");
+//    private final static DateFormat stdFormat = new SimpleDateFormat("yyyyMMdd");
     public static String dateToDateStr(Date dt){
+        DateFormat stdFormat = new SimpleDateFormat("yyyyMMdd");
         return stdFormat.format(dt);
     }
 
-    public static Date parseDateStrToDate(String dtStr) throws ParseException {
-        return stdFormat.parse(dtStr);
+    public static Date parseDateStrToDate(String dtStr) throws BusinessException {
+        try {
+            DateFormat stdFormat = new SimpleDateFormat("yyyyMMdd");
+            return stdFormat.parse(dtStr);
+        }
+        catch (ParseException ex){
+            throw new BusinessException("解析失败，当前字符串为:"+dtStr, ex);
+        }
     }
 
     public static int getYear(Date dt){

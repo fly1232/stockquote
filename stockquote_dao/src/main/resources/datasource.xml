@@ -12,9 +12,9 @@
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://192.168.61.128:3306/stockquote?characterEncoding=UTF-8"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
+        <property name="url" value="jdbc:mysql://${stockquote.address}:${stockquote.port}/stockquote?characterEncoding=UTF-8"/>
+        <property name="username" value="${stockquote.user}"/>
+        <property name="password" value="${stockquote.password}"/>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
