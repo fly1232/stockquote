@@ -1,6 +1,8 @@
 package com.soustock.stockquote.utils;
 
 import com.soustock.stockquote.exception.BusinessException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -15,13 +17,20 @@ import java.util.Locale;
  */
 public class DateUtity {
 
-    private final static DateFormat xueqiuFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US );
+    private final static Log logger = LogFactory.getLog(DateUtity.class);
 
-    public static Date parseXueqiuFormatToDate(String xueqiuDtStr) throws ParseException {
-        return xueqiuFormat.parse(xueqiuDtStr);
+    public static Date parseXueqiuFormatToDate(String xueqiuDtStr) throws BusinessException {
+        try {
+            DateFormat xueqiuFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US );
+            return xueqiuFormat.parse(xueqiuDtStr);
+        }
+        catch (Exception ex){
+            logger.error("解析失败，当前字符串为:"+xueqiuDtStr, ex);
+            throw new BusinessException("解析失败，当前字符串为:"+xueqiuDtStr, ex);
+        }
+
     }
 
-//    private final static DateFormat stdFormat = new SimpleDateFormat("yyyyMMdd");
     public static String dateToDateStr(Date dt){
         DateFormat stdFormat = new SimpleDateFormat("yyyyMMdd");
         return stdFormat.format(dt);
@@ -33,6 +42,7 @@ public class DateUtity {
             return stdFormat.parse(dtStr);
         }
         catch (ParseException ex){
+            logger.error("解析失败，当前字符串为:"+dtStr, ex);
             throw new BusinessException("解析失败，当前字符串为:"+dtStr, ex);
         }
     }
@@ -47,6 +57,17 @@ public class DateUtity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dt);
         return calendar.get(Calendar.MONTH) /3 + 1;
+    }
+
+    /**
+     * 得到某个日期是星期几，从0开始分别是星期天、星期一、星期二、...、星期六
+     * @param dt
+     * @return
+     */
+    public static int getDayOfWeek(Date dt){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dt);
+        return calendar.get(Calendar.DAY_OF_WEEK);
     }
 
     public static Date StrToDateTime(String dtStr){

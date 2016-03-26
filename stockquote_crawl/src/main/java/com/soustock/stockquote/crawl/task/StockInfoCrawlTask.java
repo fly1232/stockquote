@@ -62,7 +62,7 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
         return 0;
     }
 
-    private void procMarket(String marketName) throws IOException, ParseException {
+    private void procMarket(String marketName) throws IOException, BusinessException {
         //目前只处理两个市场，沪A和深A
         long countInDb = stockInfoDao.getStockInfoCountOfMarket(marketName);
         long countFromWeb = getCountFromWeb(marketName);
@@ -76,7 +76,7 @@ public class StockInfoCrawlTask extends BaseCrawlTask {
         }
     }
 
-    private void fetchDataFromWeb(String marketName, long fetchStart, long fetchCount ) throws IOException, ParseException {
+    private void fetchDataFromWeb(String marketName, long fetchStart, long fetchCount ) throws IOException, BusinessException {
         if (fetchCount <= 0) return;
 
         boolean bFetalExit=false;

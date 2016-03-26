@@ -35,10 +35,10 @@ public class CrawlApp {
         JobDetail dailyJob = JobBuilder.newJob(CrawlJobDetail.class)
                 .withIdentity("timing crawl job")
                 .build();
-        //创建触发器, 每6小时触发一次，首次触发为启动后5秒
+        //创建触发器, 每24小时触发一次，首次触发为启动后5秒
         SimpleScheduleBuilder simpleScheduleBuilder = SimpleScheduleBuilder
                 .simpleSchedule()
-                .withIntervalInHours(6)
+                .withIntervalInHours(24)
                 .repeatForever();
         SimpleTrigger trigger = TriggerBuilder
                 .newTrigger()
