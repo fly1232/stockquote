@@ -13,6 +13,7 @@
         <module>stockquote_dao</module>
         <module>stockquote_utils</module>
         <module>stockquote_crawl</module>
+        <module>stockquote_web</module>
     </modules>
 
     <dependencyManagement>
@@ -34,12 +35,6 @@
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz-jobs</artifactId>
                 <version>2.2.1</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongo-java-driver</artifactId>
-                <version>2.13.2</version>
             </dependency>
 
             <dependency>
@@ -142,14 +137,14 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
                 <version>2.5</version>
-                <scope>provided</scope>
+                <!--<scope>provided</scope>-->
             </dependency>
 
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>1.2</version>
-                <scope>provided</scope>
+                <!--<scope>provided</scope>-->
             </dependency>
 
             <dependency>
@@ -200,6 +195,12 @@
                 <artifactId>pinyin4j</artifactId>
                 <version>2.5.1</version>
             </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>javax.servlet.jsp</groupId>-->
+                <!--<artifactId>jsp-api</artifactId>-->
+                <!--<version>2.2</version>-->
+            <!--</dependency>-->
 
         </dependencies>
     </dependencyManagement>

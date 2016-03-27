@@ -1,6 +1,8 @@
 package com.soustock.stockquote.dao;
 
+import com.soustock.stockquote.povo.DayQuoteCdtVo;
 import com.soustock.stockquote.povo.StockQuoteVo;
+import com.soustock.stockquote.povo.PageList;
 
 import java.util.List;
 
@@ -25,5 +27,7 @@ public interface DayQuoteDao {
 //    List<StockQuoteVo> getStockQuoteBetween(String stockCode, String beginDate, String endDate);
 
     void insertDayQuotes(List<StockQuoteVo> stockQuoteVos);
+
+    PageList<StockQuoteVo> getStockQuoteByStockCode(DayQuoteCdtVo dayQuoteCdtVo);
 
 }

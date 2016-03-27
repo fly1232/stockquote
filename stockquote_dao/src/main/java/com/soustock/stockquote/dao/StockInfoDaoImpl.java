@@ -1,8 +1,6 @@
 package com.soustock.stockquote.dao;
 
 import com.soustock.stockquote.povo.StockInfoVo;
-import com.soustock.stockquote.utils.PageCdt;
-import com.soustock.stockquote.utils.PageList;
 import com.soustock.stockquote.mapper.StockInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

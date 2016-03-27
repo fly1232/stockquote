@@ -43,4 +43,26 @@
         </foreach>
     </insert>
 
+    <select id="getStockQuoteByStockCode" parameterType="com.soustock.stockquote.povo.DayQuoteCdtVo"
+            resultMap="stockQuoteResultMap">
+        select <include refid="Base_Column_List" />
+        from day_quote
+        where stock_code=#{stockCode}
+        <choose>
+            <when test="isTradeDateAsc">
+                order by trade_date asc
+            </when>
+            <otherwise>
+                order by trade_date desc
+            </otherwise>
+        </choose>
+        limit #{rowNum,jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER}
+    </select>
+
+    <select id="getQuoteCountOfStockCode" parameterType="java.lang.String" resultType="INTEGER">
+        select count(*)
+        from day_quote
+        where stock_code=#{stockCode}
+    </select>
+
 </mapper>

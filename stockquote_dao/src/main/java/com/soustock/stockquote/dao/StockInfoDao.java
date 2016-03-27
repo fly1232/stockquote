@@ -1,12 +1,6 @@
 package com.soustock.stockquote.dao;
 
 import com.soustock.stockquote.povo.StockInfoVo;
-import com.soustock.stockquote.utils.PageCdt;
-import com.soustock.stockquote.utils.PageList;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Select;
-
 import java.util.List;
 
 /**
