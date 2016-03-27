@@ -27,8 +27,10 @@ public interface DayQuoteMapper {
 
     void insertDayQuotes(List<StockQuoteVo> stockQuoteVos);
 
-    List<StockQuoteVo> getStockQuoteByStockCode(DayQuoteCdtVo dayQuoteCdtVo);
+    List<StockQuoteVo> getStockQuotesByStockCode(DayQuoteCdtVo dayQuoteCdtVo);
 
     int getQuoteCountOfStockCode(String stockCode);
+
+    List<StockQuoteVo> getAllStockQuotesByStockCode(String stockCode);
 
 }

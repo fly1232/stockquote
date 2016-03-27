@@ -29,13 +29,18 @@ public class DayQuoteDaoImpl implements DayQuoteDao {
     }
 
     @Override
-    public PageList<StockQuoteVo> getStockQuoteByStockCode(DayQuoteCdtVo dayQuoteCdtVo) {
+    public PageList<StockQuoteVo> getStockQuotesByStockCode(DayQuoteCdtVo dayQuoteCdtVo) {
         PageList<StockQuoteVo> stockQuoteVoPageList = new PageList<>();
         long totalRows = dayQuoteMapper.getQuoteCountOfStockCode(dayQuoteCdtVo.getStockCode());
         int totalPages = (int) Math.ceil(totalRows*1.0/dayQuoteCdtVo.getPageSize());
         stockQuoteVoPageList.setTotalRows(totalRows);
         stockQuoteVoPageList.setTotalPages(totalPages);
-        stockQuoteVoPageList.setList(dayQuoteMapper.getStockQuoteByStockCode(dayQuoteCdtVo));
+        stockQuoteVoPageList.setList(dayQuoteMapper.getStockQuotesByStockCode(dayQuoteCdtVo));
         return stockQuoteVoPageList;
+    }
+
+    @Override
+    public List<StockQuoteVo> getAllStockQuotesByStockCode(String stockCode){
+        return dayQuoteMapper.getAllStockQuotesByStockCode(stockCode);
     }
 }

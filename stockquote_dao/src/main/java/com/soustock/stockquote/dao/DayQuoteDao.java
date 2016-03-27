@@ -28,6 +28,14 @@ public interface DayQuoteDao {
 
     void insertDayQuotes(List<StockQuoteVo> stockQuoteVos);
 
-    PageList<StockQuoteVo> getStockQuoteByStockCode(DayQuoteCdtVo dayQuoteCdtVo);
+    PageList<StockQuoteVo> getStockQuotesByStockCode(DayQuoteCdtVo dayQuoteCdtVo);
+
+
+    /**
+     * 获取某个股票下所有的日行情数据，以交易日期升序排列
+     * @param stockCode
+     * @return
+     */
+    List<StockQuoteVo> getAllStockQuotesByStockCode(String stockCode);
 
 }

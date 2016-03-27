@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +41,7 @@ public class DayQuoteController {
     public String listView(HttpServletRequest request, Model model) throws Exception {
         DayQuoteCdtVo  dayQuoteCdtVo = AutoPojo.bindRequestParam(request, DayQuoteCdtVo.class);
         dayQuoteCdtVo.setIsTradeDateAsc(false);
-        PageList<StockQuoteVo> workNodeStateVoPageList = dayQuoteDao.getStockQuoteByStockCode(dayQuoteCdtVo);
+        PageList<StockQuoteVo> workNodeStateVoPageList = dayQuoteDao.getStockQuotesByStockCode(dayQuoteCdtVo);
 
         Map<String, Object> map = new HashMap<>();
         map.put("paramVo", dayQuoteCdtVo);
@@ -53,19 +54,19 @@ public class DayQuoteController {
         return "dayQuote/dayQuoteList";
     }
 
+
+    @RequestMapping(value = "/initKLineView", method = RequestMethod.GET)
+    public String initKLineView(Model model) throws Exception {
+        model.addAttribute("stockCode", "SH600000");
+        return "dayQuote/dayQuoteKLine";
+    }
+
     @RequestMapping(value = "/queryQuoteData", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> queryQuoteData(HttpServletRequest request) throws Exception {
-        DayQuoteCdtVo  dayQuoteCdtVo = AutoPojo.bindRequestParam(request, DayQuoteCdtVo.class);
-        PageList<StockQuoteVo> workNodeStateVoPageList = dayQuoteDao.getStockQuoteByStockCode(dayQuoteCdtVo);
-
+        String stockCode = request.getParameter("stockCode");
         Map<String, Object> map = new HashMap<>();
-        map.put("paramVo", dayQuoteCdtVo);
-        map.put("list", workNodeStateVoPageList.getList());
-        map.put("totalPages", workNodeStateVoPageList.getTotalPages());
-        map.put("totalRows", workNodeStateVoPageList.getTotalRows());
-        map.put("pageNum", dayQuoteCdtVo.getPageNum());
-        map.put("pageSize", dayQuoteCdtVo.getPageSize());
+        map.put("list", dayQuoteDao.getAllStockQuotesByStockCode(stockCode));
         return map;
     }
 }

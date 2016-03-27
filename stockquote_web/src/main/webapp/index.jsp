@@ -1,3 +1,3 @@
 <%
-    response.sendRedirect("dayQuote/initQuoteView.do");
+    response.sendRedirect("dayQuote/initKLineView.do");
 %>
