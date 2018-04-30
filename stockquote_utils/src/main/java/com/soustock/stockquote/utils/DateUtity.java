@@ -17,6 +17,10 @@ import java.util.Locale;
  */
 public class DateUtity {
 
+    public final static long MS_OF_SECOND = 1000;
+
+    public final static long MS_OF_MINUTE = MS_OF_SECOND * 60;
+
     private final static Log logger = LogFactory.getLog(DateUtity.class);
 
     public static Date parseXueqiuFormatToDate(String xueqiuDtStr) throws BusinessException {

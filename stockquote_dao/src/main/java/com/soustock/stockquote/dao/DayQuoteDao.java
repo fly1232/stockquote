@@ -1,9 +1,9 @@
 package com.soustock.stockquote.dao;
 
-import com.soustock.stockquote.povo.DayQuoteCdtVo;
-import com.soustock.stockquote.povo.StockQuoteVo;
-import com.soustock.stockquote.povo.PageList;
-
+import com.soustock.stockquote.po.DayQuoteCdtVo;
+import com.soustock.stockquote.po.DayQuotePageCdtVo;
+import com.soustock.stockquote.po.StockQuotePo;
+import com.soustock.stockquote.po.PageList;
 import java.util.List;
 
 /**
@@ -24,18 +24,18 @@ public interface DayQuoteDao {
 //     * @param endDate
 //     * @return
 //     */
-//    List<StockQuoteVo> getStockQuoteBetween(String stockCode, String beginDate, String endDate);
+//    List<StockQuotePo> getStockQuoteBetween(String stockCode, String beginDate, String endDate);
 
-    void insertDayQuotes(List<StockQuoteVo> stockQuoteVos);
+    void insertDayQuotes(List<StockQuotePo> stockQuotePos);
 
-    PageList<StockQuoteVo> getStockQuotesByStockCode(DayQuoteCdtVo dayQuoteCdtVo);
+    PageList<StockQuotePo> getStockQuotesByStockCode(DayQuotePageCdtVo dayQuotePageCdtVo);
 
 
     /**
      * 获取某个股票下所有的日行情数据，以交易日期升序排列
-     * @param stockCode
+     * @param dayQuoteCdtVo
      * @return
      */
-    List<StockQuoteVo> getAllStockQuotesByStockCode(String stockCode);
+    List<StockQuotePo> getStockQuotesByStockCodeCount(DayQuoteCdtVo dayQuoteCdtVo);
 
 }

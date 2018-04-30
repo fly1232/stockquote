@@ -14,12 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.soustock.stockquote</groupId>
-            <artifactId>stockquote_povo</artifactId>
-            <version>${globalVersion}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
         </dependency>

@@ -3,7 +3,7 @@ package com.soustock.stockquote.crawl.task;
 import com.soustock.stockquote.crawl.cache.StockCodeCache;
 import com.soustock.stockquote.crawl.common.BaseCrawlTask;
 import com.soustock.stockquote.dao.DayQuoteDao;
-import com.soustock.stockquote.dao.StockInfoDao;
+import com.soustock.stockquote.dao.StockBasicDao;
 import com.soustock.stockquote.exception.BusinessException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,7 +31,7 @@ public class DayQuoteCrawlTask extends BaseCrawlTask {
     private DayQuoteDao dayQuoteDao;
 
     @Autowired
-    private StockInfoDao stockInfoDao;
+    private StockBasicDao stockBasicDao;
 
     @Override
     protected void process() throws BusinessException {
@@ -40,16 +40,16 @@ public class DayQuoteCrawlTask extends BaseCrawlTask {
             ThreadPoolExecutor executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
             AtomicInteger stockIndex = new AtomicInteger(0);
             int stockCount = stockCodes.size();
-            for (String stockCode: stockCodes) {
-                DayQuoteCrawlUnitTask unitTask = new DayQuoteCrawlUnitTask(stockCode);
+            for (String stockCode : stockCodes) {
+                DayQuoteCrawlThread unitTask = new DayQuoteCrawlThread(stockCode);
                 unitTask.setDayQuoteDao(dayQuoteDao);
-                unitTask.setStockInfoDao(stockInfoDao);
+                unitTask.setStockBasicDao(stockBasicDao);
                 unitTask.setStockIndex(stockIndex);
                 unitTask.setStockCount(stockCount);
                 executorService.execute(unitTask);
             }
 
-            while (executorService.getActiveCount()> 0 ){
+            while (executorService.getActiveCount() > 0) {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
@@ -57,8 +57,7 @@ public class DayQuoteCrawlTask extends BaseCrawlTask {
                 }
             }
             executorService.shutdown();
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             throw new BusinessException(ex);
         }
     }

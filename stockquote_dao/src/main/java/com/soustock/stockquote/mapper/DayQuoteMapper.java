@@ -1,7 +1,8 @@
 package com.soustock.stockquote.mapper;
 
-import com.soustock.stockquote.povo.DayQuoteCdtVo;
-import com.soustock.stockquote.povo.StockQuoteVo;
+import com.soustock.stockquote.po.DayQuoteCdtVo;
+import com.soustock.stockquote.po.DayQuotePageCdtVo;
+import com.soustock.stockquote.po.StockQuotePo;
 
 import java.util.List;
 
@@ -23,14 +24,14 @@ public interface DayQuoteMapper {
 //     * @param endDate
 //     * @return
 //     */
-//    List<StockQuoteVo> getStockQuoteBetween(String stockCode, String beginDate, String endDate);
+//    List<StockQuotePo> getStockQuoteBetween(String stockCode, String beginDate, String endDate);
 
-    void insertDayQuotes(List<StockQuoteVo> stockQuoteVos);
+    void insertDayQuotes(List<StockQuotePo> stockQuotePos);
 
-    List<StockQuoteVo> getStockQuotesByStockCode(DayQuoteCdtVo dayQuoteCdtVo);
+    List<StockQuotePo> getStockQuotesByStockCode(DayQuotePageCdtVo dayQuotePageCdtVo);
 
     int getQuoteCountOfStockCode(String stockCode);
 
-    List<StockQuoteVo> getAllStockQuotesByStockCode(String stockCode);
+    List<StockQuotePo> getStockQuotesByStockCodeCount(DayQuoteCdtVo dayQuoteCdtVo);
 
 }

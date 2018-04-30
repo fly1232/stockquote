@@ -1,13 +1,12 @@
 package com.soustock.stockquote.crawl.cache;
 
 
-import com.soustock.stockquote.dao.StockInfoDao;
-import com.soustock.stockquote.povo.Constants;
-import com.soustock.stockquote.povo.StockInfoVo;
+import com.soustock.stockquote.dao.StockBasicDao;
+import com.soustock.stockquote.po.Constants;
+import com.soustock.stockquote.po.StockBasicPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -20,7 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class StockCodeCache {
 
     @Autowired
-    private StockInfoDao stockInfoDao;
+    private StockBasicDao stockBasicDao;
 
     private Lock lock = new ReentrantLock();
 
@@ -42,8 +41,8 @@ public class StockCodeCache {
     private List<String> fetchStockCodes() {
         List<String> stockCodeList = new ArrayList<>();
         for (String marketName : Constants.MARKET_NAME_ARR) {
-            List<StockInfoVo> stockInfoVos = stockInfoDao.getAllStockInfosOfMarket(marketName);
-            for (StockInfoVo vo: stockInfoVos) {
+            List<StockBasicPo> stockBasicPos = stockBasicDao.getAllStockBasicsOfMarket(marketName);
+            for (StockBasicPo vo: stockBasicPos) {
                 stockCodeList.add(vo.getStockCode());
             }
         }

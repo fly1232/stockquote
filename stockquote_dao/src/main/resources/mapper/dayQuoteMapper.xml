@@ -5,7 +5,7 @@
 
 <mapper namespace="com.soustock.stockquote.mapper.DayQuoteMapper">
 
-    <resultMap id="stockQuoteResultMap" type="com.soustock.stockquote.povo.StockQuoteVo">
+    <resultMap id="stockQuoteResultMap" type="com.soustock.stockquote.po.StockQuotePo">
         <result property="stockCode" column="stock_code" javaType="string" jdbcType="VARCHAR" />
         <result property="tradeDate" column="trade_date" javaType="string" jdbcType="VARCHAR" />
         <result property="openPrice" column="open_price" javaType="double" jdbcType="DOUBLE" />
@@ -43,7 +43,7 @@
         </foreach>
     </insert>
 
-    <select id="getStockQuotesByStockCode" parameterType="com.soustock.stockquote.povo.DayQuoteCdtVo"
+    <select id="getStockQuotesByStockCode" parameterType="com.soustock.stockquote.po.DayQuotePageCdtVo"
             resultMap="stockQuoteResultMap">
         select <include refid="Base_Column_List" />
         from day_quote
@@ -65,12 +65,13 @@
         where stock_code=#{stockCode}
     </select>
 
-    <select id="getAllStockQuotesByStockCode" parameterType="java.lang.String"
+    <select id="getStockQuotesByStockCodeCount" parameterType="com.soustock.stockquote.po.DayQuoteCdtVo"
             resultMap="stockQuoteResultMap">
         select <include refid="Base_Column_List" />
         from day_quote
         where stock_code=#{stockCode}
-        order by trade_date asc
+        order by trade_date desc
+        limit 0,#{recentlyCount, jdbcType=INTEGER}
     </select>
 
 </mapper>
